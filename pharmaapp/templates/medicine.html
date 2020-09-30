@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<script src="/static/js/jquery.min.js"></script>
+<script>
+        $(document).ready(function(){
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+               $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+    </script>
+   
+
+<div class="bg-light py-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mb-0">
+          <a href="/">Home</a> <span class="mx-2 mb-0">/</span>
+        <!-- <a href="index.html">Medicine List</a> <span class="mx-2 mb-0">/</span> -->
+         <strong class="text-black">Medicine List</strong> 
+      </div>
+    </div>
+  </div>
+</div>
+<div class="medicine">
+  <div class="row">
+
+    <div class="col-lg-12 ">
+      <h2 class="h3 md-5 text-black">Medicine</h2>
+
+    </div>
+
+    <div class="col-md-12">
+
+      <form action="/medicine/" method="post">{% csrf_token %}
+
+
+        <div class="p-3 p-lg-5 border">
+          <div class="form-group row">
+            <div class="col-md-6">
+              
+              <label for="c_itname" class="text-black">Medicine Name <span class="text-danger">*</span></label>
+              <input type="name" name="itname" class="form-control" id="myInput"
+                placeholder="Name" value="{{data.itname}}" required autofocus>
+                <label for="c_comname" class="text-black">Medicine Company <span class="text-danger">*</span></label>
+                    <select name="comid" class="form-control"  required>
+                      
+                        {% for i in cml %}
+                        <option value="{{i.comid}}">{{i.comname}}</option>
+                        {% endfor %}
+                       
+                    </select>
+                    <label for="c_catname" class="text-black">Medicine Category<span class="text-danger">*</span></label>
+                    <select name="catid" class="form-control" required >
+                            {% for i in cgl %}
+                            <option value="{{i.catid}}">{{i.catname}}</option>
+                            {% endfor %}
+                        
+                    </select>
+                    {{msg}}
+                <button type="submit" Name="btnsubmit" class="btn btn-primary">submit</button>
+                
+                    </div>
+                    <div class="col-md-6">
+                            <table class="table" id="myTable">
+                                {% for i in dl %}
+                                <tr><td>{{i.itname}}</td></tr>
+                                {% endfor %}
+                                </table>    
+                                  </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+ {% endblock %}

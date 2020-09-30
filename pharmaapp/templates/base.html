@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% load static %}
+
+  <title>NetPharma Template</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+  <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+
+
+  <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+ 
+</head>
+
+<body>
+
+ 
+  <div class="site-wrap">
+
+
+    <div class="site-navbar py-2">
+
+	
+
+      <div class="search-wrap">
+        <div class="container">
+          <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
+          <form action="#" method="post">
+            <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
+          </form>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="logo">
+            <div class="site-logo">
+              <a href=/" class="js-logo-clone">NetPharma</a>
+            </div>
+          </div>
+          <div class="main-nav d-none d-lg-block">
+            <nav class="site-navigation text-right text-md-center" role="navigation">
+              <ul class="site-menu js-clone-nav d-none d-lg-block">
+                <li class="active"><a href="/">Home</a></li>
+               
+                <li class="has-children">
+                  
+                  <a href="/adminlogin/">Shop</a>
+                  {% if role %}
+                    <ul class="dropdown">
+                   
+                    {% ifequal role '1' %}
+                   
+                    <li class="has-children">
+                      <a href="#">Administration</a>
+                        <ul class="dropdown">
+
+                          
+                        
+                        <!-- <li><a href="#">Order</a></li> -->
+                        <!-- <li><a href="#">Notification</a></li> -->
+                        <li><a href="/feedback/">Feedback</a></li>
+                      </ul>
+                    </li>
+
+                    <li class="has-children">
+                        <a href="#">Manage Staff</a>
+                          <ul class="dropdown">
+  
+                            
+                          
+                          <li><a href="/pharmaregister">Pharmacist</a></li>
+                          <li><a href="/dvboyregister">Delivery Boy</a></li>
+                          
+                        </ul>
+                      </li>
+                      {% endifequal %}
+                      {% ifequal role '2'  %}
+                      <li><a href="/pharmorders/">Orders</a></li>
+                    <li class="has-children"></li>
+                     <!--  <li><a href="#">Invoice</a></li> -->
+
+                    <li class="has-children">  
+                      <a href="#">Medicines</a>
+                        <ul class="dropdown">
+                        <li><a href="/medicine">Medicines List</a></li>
+                        <li><a href="/mcategory">Medicine Category</a></li>
+                        <li><a href="/mcompany">Medicine Company</a></li>
+                       
+                      </ul>
+                    </li> 
+                    {% endifequal %}
+                    {% ifequal role '3' %}
+
+                    <li class="has-children">  
+                      <a href="#">Delivery</a>
+                        <ul class="dropdown">
+                        <li><a href="/delivery/">Invoice</a></li>
+                        <!-- <li><a href="#">Payment Colection</a></li> -->
+                       
+                      </ul>
+                    </li> 
+                    {% endifequal %}
+                  </ul>
+                  {% else %}
+                  <ul class="dropdown">
+                      <li><a href="/adminlogin/">Login</a></li>
+                  </ul>
+                  {% endif %}
+                </li>
+                
+				<li><a href="/about"></a></li>
+                <li><a href="/about">About</a></li>
+                {% if usr %} <li><a href="/notification/">My Cart</a></li>
+                
+                <li><a href="/invoice/">View Invoice</a></li>{% endif %}
+                
+                <li><a href="/contact1">Contact</a></li>
+				<li>	{% if usr %}<a href="/logout">Logout</a>{% else %}<a href="/customerlogin">Login</a></li>{% endif %}
+				<span class="icon-"></span>
+              </ul>
+            </nav>
+          </div>
+		  {% if role %}
+          <div class="icons">
+            
+            <a href="#ordertab" class="icons-btn d-inline-block bag">
+              <span class="icon-shopping-bag"></span>
+              <span class="number"> {{ordrcnt.tnos}}</span>
+            </a>
+            <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
+                class="icon-menu"></span></a>
+          </div>
+		  {% endif %}
+        </div>
+      </div>
+    </div>
+{% block content %}
+
+{% endblock %}
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+
+            <div class="block-7">
+              <h3 class="footer-heading mb-4">About Us</h3>
+              <p>Genuine Medicines</p>  
+              <p>Timely Delivery</p> 
+              <p>Secure Payments</p>
+            </div>
+
+          </div>
+          <div class="col-lg-3 mx-auto mb-5 mb-lg-0">
+            <h3 class="footer-heading mb-4">Quick Links</h3>
+            <ul class="list-unstyled">
+              <li><a href="/about/">About</a></li>
+              <li><a href="/contact1/">Contact</a></li>
+              <li><a href="/adminlogin/">Staff Login</a></li>
+              <li><a href="/customerlogin/">Customer Login</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-6 col-lg-3">
+            <div class="block-5 mb-5">
+              <h3 class="footer-heading mb-4">Contact Info</h3>
+              <ul class="list-unstyled">
+                <li class="address">  Chakkanath Medicals Opp.Mother Hospital,Olari, Thrissur - 680012</li>
+                <li class="phone"><a href="+919567501626">+919567501626</a></li>
+                <li class="email">netpharma003@gmail.com</li>
+              </ul>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="row pt-5 mt-5 text-center">
+          <div class="col-md-12">
+            <p>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;
+              <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+              with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://netpharma003.com" target="_blank"
+                class="text-primary">AJIVPUSHKAR</a>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+  <script src="{% static 'js/aos.js' %}"></script>
+
+  <script src="{% static 'js/main.js' %}"></script>
+  
+
+</body>
+
+</html>

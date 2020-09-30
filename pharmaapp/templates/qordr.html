@@ -1,0 +1,307 @@
+
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<script src="/static/js/jquery.min.js"></script>
+
+ <style type="text/css">
+    .zoomin img {
+      height: 200px;
+      width: 200px;
+      -webkit-transition: all 2s ease;
+      -moz-transition: all 2s ease;
+      -ms-transition: all 2s ease;
+      transition: all 2s ease;
+    }
+    .zoomin img:hover {
+      width: 300px;
+      height: 300px;
+    }
+  </style>
+  
+ 
+  
+  <script>
+      $(document).ready(function(){
+        $("#itmsrch").on("keyup", function() {
+          var value = $(this).val().toLowerCase();
+          var find=false;
+          $("#myTable tr").filter(function() {
+            if(!find && $(this).text().toLowerCase().indexOf(value) > -1){
+                find=true;
+                $("#itmname").val($(this).find("#mednam").text()).change();
+                $("#comname").val($(this).find("#comnam").text()).change();
+                $("#catname").val($(this).find("#catnam").text()).change();
+                $("#pritid").val($(this).find("#itid").val()).change();
+                document.getElementById("btnorder").disabled=false;
+            }
+            else if (!find){
+                $("#itmname").val('').change();
+                $("#comname").val('').change();
+                $("#catname").val('').change();
+                $("#pritid").val('').change();
+                $("#itmqty").val('').change();
+                $("#orate").val('').change();
+                document.getElementById("btnorder").disabled=true;
+            }
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          });
+        });
+       
+        $("#orate,#itmqty").on("change",function(){
+            calc();
+        });
+        
+        function calc(){
+          var rate=parseFloat($("#orate").val());
+            if(isNaN(rate)){
+              rate=0
+            }
+            var qty=parseFloat($("#itmqty").val());
+            if(isNaN(qty)){
+              qty=0
+            }
+            $("#itmamt").val(qty*rate).change();
+        };
+      });
+      </script>
+</style>
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0">
+            <a href="/">shop</a> <span class="mx-2 mb-0">/</span>
+            <a href="/logout/">logout</a> <span class="mx-2 mb-0">/</span>
+              <strong class="text-black">Orders</strong>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 ">
+      <h2 class="h3 md-5 text-black">Order List</h2>
+
+    </div>
+
+    <div class="site-section">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-5 mr-auto">
+                  <div class="border text-center">
+                    <img src="/static/pres/{{prdata.prid}}.png" alt="Image" class="img-fluid p-5"/>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                <form method="POST" action="/queorder/">{% csrf_token %}
+                    <input type="hidden" value={{prdata.prid}} name='prid' required />
+                  <h2 class="text-black">Order Entry:{{prdata.uname}}</h2>
+                  <p>Phone {{prdata.uphone}} 
+                    <input type="Text" id='itmsrch' class="form-control" autofocus autocomplete="off"
+                    placeholder="medicine search"  />
+                    
+                    <!-- onfocus="$('#medlist').show();" onblur="$('#medlist').hide();" -->
+                  </p>
+                  <div id="medlist" style=" position: absolute;z-index:1000; background-color:white;display:none;">
+                   <table class="table table-hover">
+                        <!-- <thead>
+                                <tr>
+                                  <th >Name</th>
+                                  <th>Comapny</th>
+                                </thead> -->
+                                <tbody id="myTable">
+                                 {% for i in medlist %}
+                                    <tr>
+                                        <td>
+                                          <label id="mednam">{{i.itname}}</label>
+                                        <input type="hidden" id="itid" value="{{i.itid}}"/>
+                                        <label id="comnam">{{i.comname}}</label>
+                                        <label id="catnam">{{i.catname}}</label>
+                                    </td>
+                                   
+                                </tr>
+                                    {% endfor %}
+                                </tbody>
+                   
+                </table>
+                    </div>
+                  <input type="hidden" value="{{prdata.uid}}" name='pruid' />
+                  <input type="hidden" value="{{prdata.oid}}" name='proid' />
+                  Medicine
+                  <input type="Text" name='itmname' id='itmname' class="form-control" readonly/>
+                  <input type="hidden" value="{{data.itid}}" name='pritid'  id='pritid'/>
+
+
+                  <div id="medcomlist" style=" position: absolute;z-index:1000; background-color:white;display:none;">
+                    <table class="table table-hover">
+                         
+                                 <tbody id="myTable">
+                                  {% for i in medcomlist %}
+                                     <tr>
+                                         <td><label id="comnam">{{i.comname}}</label>
+                                         <input type="hidden" id="comid" value="{{i.comid}}"/>
+                                     </td>
+                                     <td></td>
+                                 </tr>
+                                     {% endfor %}
+                                 </tbody>
+                    
+                 </table>
+                     </div>
+                   <input type="hidden" value="{{prdata.uid}}" name='pruid' />
+                   <input type="hidden" value="{{prdata.oid}}" name='proid' />
+                  Medicine Company
+                  <input type="Text" name='comname' id='comname' class="form-control" readonly/>
+                  <input type="hidden" value="{{data.comid}}" name='prcomid'  id='prcomid'/>
+
+
+                  <div id="medcatlist" style=" position: absolute;z-index:1000; background-color:white;display:none;">
+                    <table class="table table-hover">
+                         
+                                 <tbody id="myTable">
+                                  {% for i in medcatlist %}
+                                     <tr>
+                                         <td><label id="catnam">{{i.catname}}</label>
+                                         <input type="hidden" id="catid" value="{{i.catid}}"/>
+                                     </td>
+                                     <td></td>
+                                 </tr>
+                                     {% endfor %}
+                                 </tbody>
+                                </table>
+                              </div>
+                            <input type="hidden" value="{{prdata.uid}}" name='pruid' />
+                            <input type="hidden" value="{{prdata.oid}}" name='proid' />
+                  Medicine Category
+                  <input type="Text" name='catname' id='catname' class="form-control" readonly/>
+                  <input type="hidden" value="{{data.catid}}" name='prcatid'  id='prcatid'/>
+
+                  
+                Rate
+                  <p> <strong class="text-primary h4">
+                    <input type="number" name='orate' id='orate' class="form-control" step=".01" required>
+                  </strong></p>
+      
+                  
+                  
+                  <div class="mb-5">
+                        Qty.
+                    <div class="input-group mb-3" style="max-width: 220px;">
+                     <!--  <div class="input-group-prepend">
+                        <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                      </div> -->
+                   
+                      <input type="text" id='itmqty' name='oqty' class="form-control text-center" value="1"
+                       placeholder="" 
+                        aria-label="Example text with button addon" aria-describedby="button-addon1">
+                      <!-- <div class="input-group-append">
+                        <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                      </div> -->
+                     
+                    </div>
+                    Unit.
+                    <input type="Text" name='itmunit' class="form-control" />
+                    Net Amount.
+                    <input type="Text" name='oamt' id='itmamt' class="form-control" />
+                   </div>
+                   
+                 
+                   <p><button id="btnorder" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary" disabled>Add To Order </button>
+                  <br/>Inform Nonavailablity <input type="text" name="notavail"/> 
+                  <input type="submit" name="btnnonavail" value="send"/>
+                  </p>
+                  {% if prordr %}
+                  <div class="mt-5">
+                   
+                    <ul class="nav nav-pills mb-3 custom-pill" id="pills-tab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"
+                          aria-controls="pills-home" aria-selected="true">Ordering Medicine List</a>
+                      </li>
+                     
+                  
+                    </ul>
+                    
+                    <div class="tab-content" id="pills-tabContent">
+                      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <table class="table custom-table" id="ordertab">
+                          <thead>
+                            <th>Sl.NO</th>
+                            <th>Medicine Name</th>
+                            <th>Medicine Category</th>
+                            <th>Medicine Company</th>
+                            <th>Medicine Quantity</th>
+                            <th>Medicine Amount</th>
+
+
+                          </thead>
+                          <tbody>
+                            {% for i in prordr %}
+                            <tr>
+                                <th scope="row">{{i.itid}}</th>
+                                <td>{{i.itname}}
+                                  <input name="prodid" type="hidden" value="{{i.odid}}"/>
+                                </td>
+                                <td>{{i.catname}}</td>
+                                <td>{{i.comname}}</td>
+                                <td>{{i.oqty}}</td>
+                                <td style="text-align: right">{{i.oamt}}</td>
+                              </tr>
+                              {% endfor %}
+                              <tr>
+                                <td></td> <td>Total</td> <td></td>  <td></td> <td></td>
+                                <td style="text-align: right">{{tot.oamt}}</td></tr>    
+                                <tr><td></td><td>GST@12%</td><td></td> <td></td>  <td></td> <td style="text-align: right">{{tot.gst}}</td></tr> 
+                               <tr><td></td><td>Grand Total</td> <td></td> <td></td>  <td></td>
+                                 <td style="text-align: right">{{tot.Gtot}}</td> </tr>                    
+                          </tbody>
+                          
+                        </table>
+                        
+                      </div>
+
+                      <a href="/invoice/"><button type="submit" class="btn btn-primary" name="btninv" formnovalidate>Invoice
+                      <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                  
+                        
+                  
+                      </div>
+                  
+                    </div>
+                  </div>
+                  {% endif %}
+                </form>
+          
+                </div>
+              </div>
+            </div>
+          </div>
+      
+          <div class="site-section bg-secondary bg-image" style="background-image: url('images/bg_2.jpg');">
+            <div class="container">
+              <div class="row align-items-stretch">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                  <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_1.jpg');">
+                    <div class="banner-1-inner align-self-center">
+                      <h2>Pharma Products</h2>
+                      <p>Quality pharma products, Genuine medicines only available.
+                      </p>
+                    </div>
+                  </a>
+                </div>
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                  <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_2.jpg');">
+                    <div class="banner-1-inner ml-auto  align-self-center">
+                      <h2>Rated by Experts</h2>
+                      <p>all products are rated by experts and within expiry only.
+                      </p>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+
+
+   {% endblock %}

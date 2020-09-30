@@ -1,0 +1,14 @@
+<html>
+<tittle>login form</tittle>
+<head>
+</head>
+<body>
+<form id="form1" action="/login/" method="post" > {% csrf_token %}
+<input type="text" name="uid" placeholder="userid" required="True"/>
+<input type="password" name="pwd" placeholder="password" required="True"/>
+<input type="submit" value="login" />
+<input type="reset" value="Cancel" />
+{{msg}}
+</form>
+</body>
+</html>

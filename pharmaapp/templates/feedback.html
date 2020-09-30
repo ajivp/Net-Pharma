@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+ 
+  </style>
+  <script src="/static/js/jquery.min.js"></script>
+  
+  
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0">
+            <a href="/">Shop</a> <span class="mx-2 mb-0">/</span>
+              <strong class="text-black">Feedback</strong>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 ">
+      <h2 class="h3 md-5 text-black">Feedback List</h2>
+
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+          <form action="/feedback/" class="col-md-12" method="post">
+            {% if orl %}
+              <select name="feedbacks" class="form-control" onchange="window.location.href=this.value;">
+                  <option value="/contact1/">select feedbacks for</option>
+                {% for i in orl %}
+                <option value="{{i.fid}}">{{i.uname}} [{{i.oid}}]</option></a>
+               {% endfor %}
+              </select>
+              
+              {% endif %}
+              
+              
+            <div class="site-blocks-table">
+              <input type="text" id="myInput" class="form-control" placeholder="Search Customers" />
+                <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th class="product-thumbnail">Name</th>
+                        <th>Date</th>
+                        
+                        <th class="product-name">Feedback</th>
+                        
+                      </thead>
+                      <tbody id="myTable">
+                        {% for i in list %}
+                        <tr>
+                            <td>{{i.fname}}</td>
+                            <td>{{i.fdate}}</td>
+                            
+                            <td>{{i.fstatus}}</td>
+                            
+                         
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                </table>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+               
+
+    
+
+
+   {% endblock %}

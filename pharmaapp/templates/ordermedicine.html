@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+ 
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0">
+            <a href="/">Home</a> <span class="mx-2 mb-0">/</span>
+			<a href="/login/">Order Now</a> <span class="mx-2 mb-0">/</span>
+			<strong class="text-black">Order Medicines</strong>
+  <h2>Upload Prescription</h2>
+
+  <form method="POST" action="/ordermedicine/" name="frmpres" enctype="multipart/form-data"> {% csrf_token %}
+  <div class="input-group">
+      <div class="border mb-3">
+          <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
+              aria-expanded="false" aria-controls="collapsebank">Valid Prescription Guide </a></h3>
+    
+          <div class="collapse" id="collapsebank">
+            <div class="py-2 px-4">
+              <p class="mb-0">
+                <p>* Upload Clear Image.</p>
+                <p>* No pictures of Images.</p>
+                <p>* Include details of doctor and Patient.</p>
+                <p>* Do Not Crop The Images.</p>
+                <p>* Supported file type : png,jpg.</p>
+                <p>* Maximum Allowed File Size : 1MB </p>
+            </div>
+          </div>
+        </div>
+    {% if not msg %}
+      <input type="file" name="presfile" accept="image/*" onchange="loadFile(event)"/>
+      
+      
+       
+      <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="submit"> Click to Upload
+
+        </button>
+        
+        <script>
+          var loadFile = function(event) {
+            var output = document.getElementById('output');
+            output.src = URL.createObjectURL(event.target.files[0]);
+          };
+        </script>
+
+      </div>
+      
+    </div>
+    {% endif %}
+    <img src="{{furl}}" id="output" style="height:5in; width:5in"/>
+    {% if  msg %}
+    {{msg}}
+  
+  {% endif %}
+  
+</form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+{% endblock %}

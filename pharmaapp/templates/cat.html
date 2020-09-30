@@ -1,0 +1,15 @@
+<html>
+<tittle>mysite.category details</tittle>
+<body>
+<a href='/'>home</a>
+&nbsp;&nbsp;&nbsp;
+<a href='/category'>category</a>
+<div style="float:left;">
+{%if cat %}
+{%for c in cat %}
+<a href="/details/{{c.Id}}">{{c.catname}}</a><br/>
+{% endfor %}
+{% endif %}
+</div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0">
+              <a href="/">Home</a> <span class="mx-2 mb-0">/</span>
+              <a href="/ordermedicine/">New orders</a> <span class="mx-2 mb-0">/</span>
+              <a href="/invoice/">View Invoice</a> <span class="mx-2 mb-0">/</span>
+              
+              
+              
+
+            <strong class="text-black">Make Payment</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-12">
+            <!-- <div class="bg-light rounded p-3">
+              <p class="mb-0">Returning customer? <a href="/ordermedicine" class="d-inline-block">Continue shopping</a></p>
+            </div> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-5 mb-md-0">
+              <table class='table' >
+                  <tr><td>Inv #</td><td>Date</td><td>Amount</td><td>Gst</td><td>Paid</td><td>Balance</td></tr>
+              
+              <tr><td>{{data.iid}}</td><td>{{data.idate}}</td><td>{{data.tamt}}</td><td>{{data.igst}}</td><td>{{data.paid}}</td><td>{{data.bal}}</td>
+                
+               </table>
+               
+            
+            <div class="p-3 p-lg-5 border">
+              
+
+                
+              <div class="form-group">
+                {% ifequal data.bal 0.0 %}
+                  <h2>No Pending Balance to Clear...Thank you..</h2>
+                {% else %}
+                  <form method="POST" action="/checkout/{{data.iid}}/" />{% csrf_token %}
+                  Balance Amount to pay : <input type="text" name='paidamt' type="number" step=".01" size="5" maxlength="5" value="{{data.bal}}" >
+                  <h2 class="h3 mb-3 text-black">Payment Option</h2>
+                      <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account"
+                        role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1"
+                       name="ondly"   id="c_create_account"> Cash on Delivery</label>
+
+                          <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account"
+                        role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1"
+                        name="chkpy"  id="c_create_account"> Cheque Payment</label>
+                      
+                       
+                            <button type="submit"  class="btn btn-primary">Save</button>
+                         <!-- <button class="btn btn-primary btn-lg btn-block" onclick="window.location='#'">Save
+                           </button> -->
+                           </form>
+              
+                          {% endifequal %}
+             
+                        
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+          
+          
+   
+
+                 
+    
+                 
+    
+                </div>
+              </div>
+            </di
+    
+          </div>
+        </div>
+        
+      
+    </div>
+    
+
+    <div class="site-section bg-secondary bg-image" style="background-image: url('images/bg_2.jpg');">
+      <div class="container">
+        <div class="row align-items-stretch">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_1.jpg');">
+              <div class="banner-1-inner align-self-center">
+                <h2>Pharma Products</h2>
+                <p>Quality pharama products, Genuine medicines only available.
+                </p>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_2.jpg');">
+              <div class="banner-1-inner ml-auto  align-self-center">
+                <h2>Rated by Experts</h2>
+                <p>all products are rated by experts and within expiry only..
+                </p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    {% endblock %}
